@@ -1,0 +1,26 @@
+.container {
+	display: flex;
+	margin: 10px auto;
+	width: 80%;
+	height: 115px;
+	background-color: palevioletred;
+	border-radius: 10px;
+}
+
+.info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	font-family: "Montserrat", sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+}
+
+.icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 30%;
+}
