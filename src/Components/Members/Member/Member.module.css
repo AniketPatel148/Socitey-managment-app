@@ -3,7 +3,12 @@
 	margin: 10px auto;
 	width: 80%;
 	height: 115px;
-	background-color: palevioletred;
+	background: rgb(250, 114, 211);
+	background: linear-gradient(
+		90deg,
+		rgba(250, 114, 211, 1) 8%,
+		rgba(252, 3, 98, 1) 45%
+	);
 	border-radius: 10px;
 }
 

@@ -6,48 +6,38 @@ import styles from "./FullMember.module.css";
 
 class FullMember extends React.Component {
 	state = {
-		data: {},
+		data: [],
 	};
 
 	componentDidMount() {
-		axios.get("/.json").then((response) => {
+		axios.get("/House.json").then((response) => {
+			let data = [];
 			for (let i in response.data) {
-				if (
-					response.data[i].orderData.houseNumber ===
-					this.props.match.params.house
-				) {
-					this.setState(
-						(prevState) => (prevState.data = response.data[i].orderData)
-					);
+				if (i === this.props.match.params.house) {
+					let k = response.data[i];
+					for (let j in k) data.push(k[j]);
 				}
 			}
+			this.setState((prevState) => (prevState.data = data));
 		});
 	}
 
 	render() {
-		// let membersObject = this.state.data.Members;
-
-		// let memberFinal;
-
-		// if (membersObject) {
-		// 	var membersArray = Object.keys(membersObject).map(function (key) {
-		// 		Using Number() to convert key to number type
-		// 		Using obj[key] to retrieve key value
-		// 		return [membersObject[key], String(key)];
-		// 	});
-
-		// 	memberFinal = (
-		// 		<div className={styles.membersContainer}>
-		// 			{membersArray.map((arr) => (
-		// 				<div className={styles.member}>
-		// 					<span>{arr[1]}: </span>
-		// 					<span>{arr[0]}</span>
-		// 				</div>
-		// 			))}
-		// 		</div>
-		// 	);
-		// }
-		// console.log(this.state.data, this.props);
+		let memberFinal = (
+			<div>
+				{this.state.data.map((member) => {
+					console.log(member);
+					return (
+						<div>
+							<span>Name: </span>
+							<span>{member.Name}</span>
+							<span>Phone no.: </span>
+							<span>{member.ContactNumber}</span>
+						</div>
+					);
+				})}
+			</div>
+		);
 		return (
 			<div className={styles.container}>
 				<div className={styles.mainInfo}>
@@ -64,6 +54,7 @@ class FullMember extends React.Component {
 						House number: <span>{this.state.data.houseNumber}</span>
 					</p>
 				</div>
+				{memberFinal}
 			</div>
 		);
 	}

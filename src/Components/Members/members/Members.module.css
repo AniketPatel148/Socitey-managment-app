@@ -3,9 +3,11 @@
 }
 
 .link {
-	display: block;
-	margin: 30px auto;
-	background-color: #fff;
+	margin: 30px 10px 0;
+	padding: 5px 20px;
+	border-radius: 5px;
+	font-family: "nunito", sans-serif;
+	background-color: rgba(252, 3, 98, 1);
 	border: none;
 	color: lightgreen;
 	text-align: center;
@@ -13,8 +15,10 @@
 	font-size: 1rem;
 	font-weight: 600;
 	cursor: pointer;
+	box-shadow: 2px 4px 6px rgb(139, 139, 139);
 }
 
 .link.active {
 	color: blueviolet;
+	box-shadow: 0 4px 6px rgb(139, 139, 139);
 }

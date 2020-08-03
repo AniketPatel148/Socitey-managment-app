@@ -2,6 +2,7 @@ import React from "react";
 import Member from "../Member/Member";
 import axios from "../../../axios-instance";
 import { Link } from "react-router-dom";
+import Spinner from "../../UI/Spinner/Spinner";
 // import Button from "../../UI/Button/Button";
 
 import classes from "./Members.module.css";
@@ -9,33 +10,43 @@ import classes from "./Members.module.css";
 class Members extends React.Component {
 	state = {
 		members: [],
+		loading: true,
 	};
 
 	componentDidMount() {
 		axios
-			.get("/House.json")
+			.get("/heads.json")
 			.then((response) => {
 				console.log(response.data);
 				const members = [];
 				for (let i in response.data) {
-					members.push(i);
+					let k = response.data[i];
+					for (let j in k) members.push(k[j]);
 				}
-				this.setState((prevState) => (prevState.members = members));
+				console.log(members);
+				this.setState({ members: members, loading: false });
 			})
 			.catch((err) => console.log(err));
 	}
 
 	render() {
-		console.log(this.state.members[0]);
 		return (
 			<div className={classes.main}>
-				{this.state.members.map((member) => {
-					return (
-						<Link to={"/sahdev/" + member} key={member}>
-							<Member house={member} />
-						</Link>
-					);
-				})}
+				{this.state.loading ? (
+					<Spinner />
+				) : (
+					this.state.members.map((member) => {
+						return (
+							<Link to={"/sahdev/" + member.House} key={member.House}>
+								<Member
+									house={member.House}
+									name={member.Name}
+									contact={member.ContactNumber}
+								/>
+							</Link>
+						);
+					})
+				)}
 
 				<div>
 					<Link to="/addsocietymember" exact>
