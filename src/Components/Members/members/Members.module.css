@@ -1,0 +1,20 @@
+.main {
+	text-align: center;
+}
+
+.link {
+	display: block;
+	margin: 30px auto;
+	background-color: #fff;
+	border: none;
+	color: lightgreen;
+	text-align: center;
+	font-family: "Montserrat", sans-serif;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.link.active {
+	color: blueviolet;
+}
