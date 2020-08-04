@@ -1,0 +1,21 @@
+.buttonContainer {
+	display: flex;
+	margin: 20px auto;
+	justify-content: center;
+}
+
+.buttonContainer a {
+	color: aliceblue;
+}
+
+.button {
+	background-color: rgba(252, 3, 98, 1);
+	border: none;
+	border-radius: 30px;
+	color: aliceblue;
+	font-family: "nunito", sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	padding: 10px;
+	box-shadow: 2px 4px 4px rgb(141, 141, 141);
+}

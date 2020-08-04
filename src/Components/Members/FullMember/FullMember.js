@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "../../../axios-instance";
 // import { Link } from "react-router-dom";
-
+import Spinner from "../../UI/Spinner/Spinner";
 import styles from "./FullMember.module.css";
 
 class FullMember extends React.Component {
 	state = {
 		data: [],
+		loading: true,
 	};
 
 	componentDidMount() {
@@ -19,6 +20,7 @@ class FullMember extends React.Component {
 				}
 			}
 			this.setState((prevState) => (prevState.data = data));
+			this.setState({ loading: false });
 		});
 	}
 
@@ -26,13 +28,11 @@ class FullMember extends React.Component {
 		let memberFinal = (
 			<div>
 				{this.state.data.map((member) => {
-					console.log(member);
 					return (
-						<div>
-							<span>Name: </span>
-							<span>{member.Name}</span>
-							<span>Phone no.: </span>
-							<span>{member.ContactNumber}</span>
+						<div className={styles.member}>
+							<p>{member.Name}</p>
+							<p>{member.ContactNumber}</p>
+							<p>{member.EmailID}</p>
 						</div>
 					);
 				})}
@@ -40,21 +40,7 @@ class FullMember extends React.Component {
 		);
 		return (
 			<div className={styles.container}>
-				<div className={styles.mainInfo}>
-					<p>
-						{" "}
-						Head Member: <span>{this.state.data.name}</span>
-					</p>
-					<p>
-						{" "}
-						Contact number: <span>{this.state.data.contactNumber}</span>
-					</p>
-					<p>
-						{" "}
-						House number: <span>{this.state.data.houseNumber}</span>
-					</p>
-				</div>
-				{memberFinal}
+				{this.state.loading ? <Spinner /> : memberFinal}
 			</div>
 		);
 	}

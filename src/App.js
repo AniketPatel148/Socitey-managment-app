@@ -5,6 +5,8 @@ import { Link, Route, Switch } from "react-router-dom";
 import FullMember from "./Components/Members/FullMember/FullMember";
 import ContactForm from "./containers/ContactData/ContactData";
 import ContactForm2 from "./containers/ContactData/ContactData2/ContactData2";
+import Announcements from "./containers/Announcements/Announcements";
+import AddAnnouncement from "./containers/Announcements/AddAnnouncement/AddAnnouncement";
 
 import "./App.css";
 
@@ -18,7 +20,7 @@ class App extends React.Component {
 						<Link to="/members">
 							<div className="dashboardCard no1">Members</div>
 						</Link>
-						<Link to>
+						<Link to="/announcements">
 							<div className="dashboardCard no2">Anouncments</div>
 						</Link>
 						<Link to>
@@ -39,6 +41,12 @@ class App extends React.Component {
 					</Route>
 					<Route path="/addsocietyfamily">
 						<ContactForm2 />
+					</Route>
+					<Route path="/announcements">
+						<Announcements />
+					</Route>
+					<Route path="/addannouncement">
+						<AddAnnouncement />
 					</Route>
 				</Switch>
 			</div>

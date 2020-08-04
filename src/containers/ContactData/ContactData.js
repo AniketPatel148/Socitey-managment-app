@@ -145,10 +145,6 @@ class ContactData extends Component {
 		this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
 	};
 
-	addMemberhandler() {
-		console.log(this.props);
-	}
-
 	render() {
 		const formElementsArray = [];
 		for (let key in this.state.orderForm) {

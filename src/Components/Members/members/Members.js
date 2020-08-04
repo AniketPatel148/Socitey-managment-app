@@ -17,13 +17,11 @@ class Members extends React.Component {
 		axios
 			.get("/heads.json")
 			.then((response) => {
-				console.log(response.data);
 				const members = [];
 				for (let i in response.data) {
 					let k = response.data[i];
 					for (let j in k) members.push(k[j]);
 				}
-				console.log(members);
 				this.setState({ members: members, loading: false });
 			})
 			.catch((err) => console.log(err));
@@ -50,10 +48,10 @@ class Members extends React.Component {
 
 				<div>
 					<Link to="/addsocietymember" exact>
-						<button className={classes.link}>Add Society Members</button>
+						<button className={classes.link}>Add Family Members</button>
 					</Link>
 					<Link to="/addsocietyfamily" exact>
-						<button className={classes.link}>Add Family</button>
+						<button className={classes.link}>Add Society Family</button>
 					</Link>
 				</div>
 			</div>

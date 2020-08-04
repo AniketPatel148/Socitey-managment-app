@@ -4,13 +4,13 @@
 
 .link {
 	margin: 30px 10px 0;
-	padding: 5px 20px;
-	border-radius: 5px;
+	padding: 8px 20px;
+	border-radius: 30px;
 	font-family: "nunito", sans-serif;
 	background-color: rgba(252, 3, 98, 1);
 	border: none;
-	color: lightgreen;
 	text-align: center;
+	color: aliceblue;
 	font-family: "Montserrat", sans-serif;
 	font-size: 1rem;
 	font-weight: 600;
