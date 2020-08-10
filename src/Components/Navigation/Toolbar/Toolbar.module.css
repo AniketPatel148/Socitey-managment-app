@@ -1,0 +1,36 @@
+.Toolbar {
+	height: 70px;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: #703b09;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 20px;
+	box-sizing: border-box;
+	z-index: 90;
+}
+
+.Toolbar nav {
+	height: 100%;
+}
+
+.Logo {
+	margin: auto;
+	font-size: 30px;
+	font-weight: bolder;
+	color: aliceblue;
+
+	font-family: "monteserrat", sans-serif;
+}
+
+@media (max-width: 499px) {
+	.DesktopOnly {
+		display: none;
+	}
+	.Logo {
+		font-family: "Nunito", sans-serif;
+		font-size: 25px;
+	}
+}
