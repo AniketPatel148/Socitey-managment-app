@@ -7,7 +7,10 @@ import styles from "./FullMember.module.css";
 
 class FullMember extends React.Component {
 	componentDidMount() {
-		this.props.onFetchFullMember(this.props.match.params.house);
+		this.props.onFetchFullMember(
+			this.props.match.params.house,
+			this.props.token
+		);
 	}
 
 	render() {
@@ -37,12 +40,14 @@ const mapStateToProps = (state) => {
 		fullMember: state.fullmember.fullmember,
 		loading: state.fullmember.loading,
 		error: state.fullmember.error,
+		token: state.auth.token,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onFetchFullMember: (houseId) => dispatch(actions.fetchFullMemmber(houseId)),
+		onFetchFullMember: (houseId, token) =>
+			dispatch(actions.fetchFullMemmber(houseId, token)),
 	};
 };
 

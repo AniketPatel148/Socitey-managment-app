@@ -9,9 +9,8 @@ import * as actions from "../../../store/actions/index";
 import classes from "./Members.module.css";
 
 class Members extends React.Component {
-	componentWillMount() {
-		this.props.onFetchMembers();
-		console.log(this.props);
+	componentDidMount() {
+		this.props.onFetchMembers(this.props.token);
 	}
 	render() {
 		let members = <Spinner />;
@@ -45,7 +44,7 @@ class Members extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onFetchMembers: () => dispatch(actions.fetchMembers()),
+		onFetchMembers: (token) => dispatch(actions.fetchMembers(token)),
 	};
 };
 
@@ -53,6 +52,7 @@ const mapStateToProps = (state) => {
 	return {
 		members: state.members.members,
 		loading: state.members.loading,
+		token: state.auth.token,
 	};
 };
 

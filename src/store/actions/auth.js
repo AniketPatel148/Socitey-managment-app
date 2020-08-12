@@ -1,5 +1,5 @@
 import * as actionTypes from "./actions";
-import axios from "axios";
+import { auth } from "../../firebase";
 
 export const authStart = () => {
 	return {
@@ -7,11 +7,16 @@ export const authStart = () => {
 	};
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (userId) => {
 	return {
 		type: actionTypes.AUTH_SUCCESS,
-		tokenId: token,
 		userId: userId,
+	};
+};
+export const authToken = (token) => {
+	return {
+		type: actionTypes.AUTH_TOKEN,
+		token: token,
 	};
 };
 
@@ -22,42 +27,51 @@ export const authFail = (error) => {
 	};
 };
 
-export const authLogout = () => {
+export const authLogoutSuccess = () => {
 	localStorage.removeItem("token");
 	localStorage.removeItem("userId");
-	console.log("worked");
 	return {
 		type: actionTypes.AUTH_LOGOUT,
 	};
 };
 
-export const auth = (email, password, isSignUp) => {
+export const authLogout = () => {
+	return (dispatch) => {
+		auth.signOut().then(() => {
+			dispatch(authLogoutSuccess());
+		});
+	};
+};
+
+export const authenticate = (email, password, isSignUp) => {
 	return (dispatch) => {
 		dispatch(authStart());
-		const authData = {
-			email: email,
-			password: password,
-			reutrnSecureToken: true,
-		};
-		console.log(authData, isSignUp);
-		let url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
-		if (!isSignUp) {
-			url =
-				"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
+		if (isSignUp) {
+			auth
+				.createUserWithEmailAndPassword(email, password)
+				.then((res) => {
+					console.log(res);
+					dispatch(authSuccess(res.user.uid));
+					localStorage.setItem("userId", res.user.uid);
+					auth.currentUser.getIdToken(true).then((token) => {
+						dispatch(authToken(token));
+						localStorage.setItem("token", token);
+					});
+				})
+				.catch((err) => dispatch(authFail(err)));
+		} else {
+			auth
+				.signInWithEmailAndPassword(email, password)
+				.then((res) => {
+					dispatch(authSuccess(res.user.uid));
+					localStorage.setItem("userId", res.user.uid);
+					auth.currentUser.getIdToken(true).then((token) => {
+						dispatch(authToken(token));
+						localStorage.setItem("token", token);
+					});
+				})
+				.catch((err) => dispatch(authFail(err)));
 		}
-		console.log(process.env.REACT_APP_FIREBASE_API_KEY);
-		axios
-			.post(url + process.env.REACT_APP_FIREBASE_API_KEY, authData)
-			.then((response) => {
-				console.log(response);
-				localStorage.setItem("token", response.data.idToken);
-				localStorage.setItem("userId", response.data.localId);
-				dispatch(authSuccess(response.data.idToken, response.data.localId));
-			})
-			.catch((error) => {
-				console.log(error);
-				dispatch(authFail(error.response.data.error));
-			});
 	};
 };
 
@@ -67,8 +81,66 @@ export const authCheckState = () => {
 		const userId = localStorage.getItem("userId");
 		if (!token) {
 			dispatch(authLogout());
+			console.log("loggedout");
 		} else {
-			dispatch(authSuccess(token, userId));
+			console.log("autologgedin");
+			dispatch(authSuccess(userId));
+			dispatch(authToken(token));
 		}
+	};
+};
+
+export const emailVerificationStart = () => {
+	return {
+		type: actionTypes.EMAIL_VERIFICATION_START,
+	};
+};
+
+export const emailVerificationSent = () => {
+	return {
+		type: actionTypes.EMAIL_VERIFICATION_SENT,
+	};
+};
+
+export const emailVerificationFail = (error) => {
+	return {
+		type: actionTypes.EMAIL_VERIFICATION_FAIL,
+		error: error,
+	};
+};
+
+export const emailVerificartionSend = () => {
+	return (dispatch) => {
+		dispatch(emailVerificationStart());
+		auth.onAuthStateChanged((user) => {
+			if (user) {
+				auth.currentUser
+					.sendEmailVerification()
+					.then(function () {
+						dispatch(emailVerificationSent());
+					})
+					.catch(function (error) {
+						dispatch(emailVerificationFail(error));
+					});
+			} else {
+				console.log("no user");
+			}
+		});
+	};
+};
+
+export const emailVerificationSuccess = () => {
+	return {
+		type: actionTypes.EMAIL_VERIFICATION_SUCCESS,
+	};
+};
+
+export const emailVerified = () => {
+	return (dispatch) => {
+		auth.onAuthStateChanged((user) => {
+			if (user.emailVerified) {
+				dispatch(emailVerificationSuccess());
+			}
+		});
 	};
 };

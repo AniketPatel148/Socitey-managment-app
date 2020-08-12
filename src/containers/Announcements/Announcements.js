@@ -1,40 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import axios from "../../axios-instance";
+import * as actions from "../../store/actions/index";
+import { connect } from "react-redux";
 import Spinner from "../../Components/UI/Spinner/Spinner";
 import Announcement from "../../Components/Announcement/Announcement";
 
 import styles from "./Announcements.module.css";
 
 class Announcements extends React.Component {
-	state = {
-		announcements: [],
-		loading: true,
-	};
-
 	componentDidMount() {
-		axios
-			.get("/announcement.json")
-			.then((response) => {
-				let announcement = [];
-				for (let i in response.data) {
-					announcement.push(response.data[i]);
-				}
-				this.setState({ loading: false, announcements: announcement });
-			})
-			.catch((err) => {
-				console.log(err);
-				this.setState({ loading: false });
-			});
+		this.props.onFetchAnnouncements(this.props.token);
 	}
 
 	render() {
-		let announcements = this.state.announcements;
-		console.log(announcements);
+		let announcements = this.props.announcements;
 		return (
 			<div>
 				{announcements.map((announcement, index) => {
-					console.log(announcement);
 					return (
 						<Announcement
 							key={index}
@@ -44,7 +26,7 @@ class Announcements extends React.Component {
 					);
 				})}
 
-				{this.state.loading ? (
+				{this.props.loading ? (
 					<Spinner />
 				) : (
 					<div className={styles.buttonContainer}>
@@ -58,4 +40,19 @@ class Announcements extends React.Component {
 	}
 }
 
-export default Announcements;
+const mapStateToProps = (state) => {
+	return {
+		announcements: state.announcements.announcements,
+		loading: state.announcements.loading,
+		token: state.auth.token,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onFetchAnnouncements: (token) =>
+			dispatch(actions.fetchAnnouncements(token)),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Announcements);

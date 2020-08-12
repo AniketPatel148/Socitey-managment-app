@@ -1,3 +1,10 @@
 export { fetchMembers } from "./members";
 export { fetchFullMemmber } from "./fullmember";
-export { auth, authLogout, authCheckState } from "./auth";
+export {
+	authenticate,
+	authLogout,
+	authCheckState,
+	emailVerificartionSend,
+	emailVerified,
+} from "./auth";
+export { fetchAnnouncements } from "./announcements";

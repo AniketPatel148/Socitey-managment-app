@@ -25,11 +25,24 @@ class Auth extends React.Component {
 				valid: false,
 				touched: false,
 			},
+			house: {
+				elementType: "input",
+				elementConfig: {
+					type: "number",
+					placeholder: "House number",
+				},
+				value: "",
+				validation: {
+					required: true,
+				},
+				valid: false,
+				touched: false,
+			},
 			password: {
 				elementType: "input",
 				elementConfig: {
 					type: "password",
-					placeholder: "Your Name",
+					placeholder: "Password",
 				},
 				value: "",
 				validation: {
@@ -92,7 +105,6 @@ class Auth extends React.Component {
 	};
 
 	signUpChangeHandler = () => {
-		console.log("executed");
 		const signUp = this.state.isSignUp;
 		this.setState({ isSignUp: !signUp });
 		console.log(this.state.isSignUp);
@@ -109,7 +121,8 @@ class Auth extends React.Component {
 
 		let authRedirect = null;
 		if (this.props.isAuth) {
-			authRedirect = <Redirect to={this.props.authRedirectPath} />;
+			authRedirect = <Redirect to="/" />;
+			console.log(this.props.isAuth);
 		}
 
 		let form = (
@@ -152,6 +165,7 @@ class Auth extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+	console.log(state.auth);
 	return {
 		error: state.auth.error,
 		loading: state.auth.loading,
@@ -162,7 +176,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onAuth: (email, password, isSignUp) =>
-			dispatch(actions.auth(email, password, isSignUp)),
+			dispatch(actions.authenticate(email, password, isSignUp)),
 	};
 };
 

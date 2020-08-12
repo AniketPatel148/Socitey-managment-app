@@ -21,11 +21,11 @@ export const fetchMembersFail = (error) => {
 	};
 };
 
-export const fetchMembers = () => {
+export const fetchMembers = (token) => {
 	return (dispatch) => {
 		dispatch(fetchMembersStart());
 		axios
-			.get("/heads.json")
+			.get("/heads.json?auth=" + token)
 			.then((response) => {
 				const members = [];
 				for (let i in response.data) {

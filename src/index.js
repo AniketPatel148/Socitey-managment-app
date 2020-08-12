@@ -7,6 +7,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import memberReducer from "./store/reducers/members";
 import AuthReducer from "./store/reducers/auth";
 import fullMemberReducer from "./store/reducers/fullmember";
+import announcementReducer from "./store/reducers/announcements";
 import thunk from "redux-thunk";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
 	members: memberReducer,
 	fullmember: fullMemberReducer,
 	auth: AuthReducer,
+	announcements: announcementReducer,
 });
 
 const store = createStore(

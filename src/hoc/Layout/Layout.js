@@ -27,11 +27,13 @@ class Layout extends Component {
 					isAuthenticated={this.props.isAuthenticated}
 					drawerToggleClicked={this.sideDrawerToggleHandler}
 				/>
-				<SideDrawer
-					isAuthenticated={this.props.isAuthenticated}
-					open={this.state.showSideDrawer}
-					closed={this.sideDrawerClosedHandler}
-				/>
+				{this.props.isAuthenticated ? (
+					<SideDrawer
+						isAuthenticated={this.props.isAuthenticated}
+						open={this.state.showSideDrawer}
+						closed={this.sideDrawerClosedHandler}
+					/>
+				) : null}
 				<main className={classes.Content}>{this.props.children}</main>
 			</div>
 		);
@@ -39,7 +41,9 @@ class Layout extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return {};
+	return {
+		isAuthenticated: state.auth.token,
+	};
 };
 
 export default connect(mapStateToProps)(Layout);

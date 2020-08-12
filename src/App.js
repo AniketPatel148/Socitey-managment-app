@@ -11,6 +11,7 @@ import * as actions from "./store/actions/index";
 import Auth from "./containers/Auth/Auth";
 import Logout from "./containers/Auth/Logout/Logout";
 import Layout from "./hoc/Layout/Layout";
+import EmailVerification from "./containers/Auth/emailVerification/emaiVerification";
 
 import "./App.css";
 
@@ -21,15 +22,23 @@ class App extends React.Component {
 
 	render() {
 		let redirectToAuth = null;
+		if (!this.props.emailVerified) {
+			redirectToAuth = <Redirect to="/verifyEmail" />;
+		}
 		if (!this.props.tokenID) {
 			redirectToAuth = <Redirect to="/auth" />;
+			console.log("/auth", this.props);
 		}
+
 		return (
 			<div>
 				{redirectToAuth}
 				<Layout>
 					<Route path="/auth">
 						<Auth />
+					</Route>
+					<Route path="/verifyEmail">
+						<EmailVerification />
 					</Route>
 					<Route path="/logout">
 						<Logout />
@@ -77,6 +86,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		tokenID: state.auth.token != null,
+		emailVerified: state.auth.emailVerified,
 	};
 };
 

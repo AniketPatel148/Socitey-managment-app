@@ -21,11 +21,11 @@ export const fetchFullMemberFail = (error) => {
 	};
 };
 
-export const fetchFullMemmber = (houseId) => {
+export const fetchFullMemmber = (houseId, token) => {
 	return (dispatch) => {
 		dispatch(fetchFullMemberStart());
 		axios
-			.get("/House.json")
+			.get("/House.json?auth=" + token)
 			.then((response) => {
 				let data = [];
 				for (let i in response.data) {
